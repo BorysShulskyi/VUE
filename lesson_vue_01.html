@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>VUE завдання до уроку 1</title>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<link rel="stylesheet" href="style_vue.css">
+</head>
+<body>
+
+<!-- ------------------------Завдання №1 -->
+	<div id='task01'>
+			<hr>
+			<h3>Задача 1. Вводиться кількість пасажирів. Вивести: <br> скільки потрібно автобусів (кожен автобус на 20 місць), <br> скільки пляшок води (кожному пасажиру 2 пляшки), <br> скільки бутербродів (кожному пасажиру 3 бутерброди)</h3>
+			<hr>	
+			<label> Введіть кількість пасажирів  
+					<input type="number" v-model = "numberOfPassengers">
+			</label>
+				<p>Автобусів потрібно : <span> {{ requiredBuses }} </span> </p>
+				<p>Потрібно пляшок води :  <span>{{ requiredWaterBottle }}</span></p>
+				<p>Потрібно бутербродів :  <span>{{ requiredSandwiches }}</span></p>
+				<hr>	
+		</div>
+<!-- ------------------------Завдання №2 --> 
+		<div id="task02">
+			<hr>
+			<h3>Задача 2. Вводиться номер місяця. <br> Автоматично виводити рекомендований одяг (зима – пальто, літо – шорти ….). <br> Також автоматично виводити зображення з відповідним зображенням лісу (зима – ліс зі снігом, осінь – жовтий ліс, …).</h3>
+			<hr>	
+			<label>Оберіть місяць (1-12)
+				<input type="number" v-model.lazy="numberMounth" >
+			</label>
+        <p>Треба буде одягати : <span>{{seasonClothes}} </span> </p>
+        <img v-bind:src="seasonPicture" alt="Наберіть число, місяця" height="200">
+			<hr>	
+		</div>
+<!-- ------------------------Завдання №3 -->
+		<div id="task03">
+			<hr>
+			<h3>Задача 3. Задано початок та кінець діапазону. <br> При натисканні на кнопку випадковим чином <br>генерувати значення з вказаного діапазону та відображати його.</h3>
+			<hr>	
+			<label>Введіть менше число 
+				<input type="number" v-model.lazy="startValue" >
+
+			</label>
+			<label>Введіть більше число 
+				<input type="number" v-model.lazy="endValue" >
+				
+			</label>
+            <p>Діапазон значень від <span>{{startValue}}</span> до <span>{{endValue}}</span></p>
+				<br>
+				<button @click="randomInteger">random</button>
+            <h1>{{result}}</h1>
+
+				<br>
+				<hr>	
+		</div>
+<!-- ------------------------Завдання №4 -->
+		<div id="task04">
+			<hr>
+			<h3>Задача 4. “Рахунок у банку” <br> Вимоги: <br> 1. Спочатку сума дорівнює 0грн. Змінити суму у гривнях можна або зарахуванням на рахунок, або зняттям. <br> 2. Сума автоматично переводиться у долари та євро (фіксований курс задається у data). <br> 3. можливість зарахувати суму (контролювати, щоб не була від’ємною)  <br> 4. можливість зняти (щоб не можна зняти більше ніж є на рахунку)  <br> 5. при виконанні зняття і зарахування коштів вираховувати 3% від суми (відображати кількість відсотків автоматично)  <br> <br> При зміні суми : <br> - якщо було зняття, то суму відображати червоним <br> - якщо було зарахування, то суму відображати зеленим<br> Якщо сума валюти менша за 100 то відображати червоним кольором, інакше - зеленим</h3>
+			<hr>	
+            <div :style="sumStyle"> Сума на рахунку: <span> {{grnSum}}</span> грн.
+				</div>
+            <div> Зарахувати на рахунок: 
+					<input type="number" v-model="addMoneyValue"/>
+					<button @click="addSum"> ЗАРАХУВАТИ </button>
+            </div>
+				<br>
+            <div> Зняти з рахунку: 
+					<input type="number" v-model="giveMoneyValue"/>
+					<button @click="giveSum"> ЗНЯТИ </button>
+            </div>
+				<br>
+            <div>	Відсотки за обслуговування: {{percentage}} грн.
+				</div>
+				<hr>	
+				<!-- 2 -->
+				<div> Сумма у доларах:
+               <span :style="dollarsValue > 100 ? 'color: green' : 'color: red'"> {{dollarsValue}}</span>
+            </div>
+            <div> Сумма у євро:
+               <span :style="euroValue > 100 ? 'color: green' : 'color: red'"> {{euroValue}}</span>
+            </div>
+		<hr>	
+
+		</div>
+
+<!-- ------------------------Завдання №5 -->
+		<div id="task05">
+				<hr>	
+					<h3>Задача 5. Додаток містить масив об’єктів (логін, пароль) - <br> існуючі логіни і паролі. <br> Користувач вводить логін і пароль, <br> а програма повідомляє чи може користувач бути авторизованим (чи є він одним з масиву).</h3>
+					<hr>	
+					<br>
+							<div>Введіть пароль <span :style="messageStyle">{{message}}</span>   </div>
+					<br>
+						<div><label>Login <input type="text" v-model="entryLogin"></label></div>
+						<br>
+						<div><label>Password <input type="password" v-model="entryPassword"></label></div>
+						<br>
+						<button @click="check">Go</button>
+						<hr>	
+
+				</div>
+
+
+	
+
+<script>
+	const { createApp } = Vue
+//========================================================================================================================================================
+	// ЗАВДАННЯ 01 -------------------------------------------------
+   	createApp({
+      	data() {
+         return {
+				numberOfPassengers: 0,
+         }
+      	},
+			computed:{
+				requiredBuses() {
+				if (this.numberOfPassengers > 0) {
+					return Math.ceil(this.numberOfPassengers / 20);
+					}
+					return 0;
+					},
+				// // пляшок води
+				requiredWaterBottle() {
+					if (this.numberOfPassengers > 0) {
+				 		return this.numberOfPassengers * 2;
+					}
+				return 0;
+				},
+				// бутербродів
+				requiredSandwiches() {
+					if (this.numberOfPassengers > 0) {
+				 	return this.numberOfPassengers * 3;
+					}
+					return 0;
+				},
+			},
+      }).mount('#task01')
+	
+	// ЗАВДАННЯ 02 -------------------------------------------------
+		createApp({
+				data() {
+						return {
+							numberMounth: null,
+							seasonClothes: null,
+							seasonPicture: null,
+							}
+						},
+				methods: {
+						season() {
+							// зима
+							if (this.numberMounth === 12 || this.numberMounth == 1 || this.numberMounth == 2) {
+									this.seasonClothes = 'Шубу, пуховик, тепле взуття'
+									this.seasonPicture = 'https://thepresentation.ru/img/tmb/4/340253/5f65887a0f83a87b54ccb90922236f93-800x.jpg'
+							}
+							// весна
+							if (this.numberMounth >= 3 && this.numberMounth <= 5) {
+									this.seasonClothes = 'Плащ, куртку'
+									this.seasonPicture = 'https://thepresentation.ru/img/tmb/4/340253/865544cd0be45be6bc2f4a67f535fb90-800x.jpg'
+							}
+							// літо
+							if (this.numberMounth >= 6 && this.numberMounth <= 8) {
+									this.seasonClothes = 'Футболку, шорти'
+									this.seasonPicture = 'https://thepresentation.ru/img/tmb/4/340253/adb354270ee76a74dfc035b40ba82378-800x.jpg'
+							}
+							// осінь
+							if (this.numberMounth >= 9 && this.numberMounth <= 11) {
+									this.seasonClothes = 'Пальто, куртку'
+									this.seasonPicture = 'https://thepresentation.ru/img/tmb/4/340253/ae7ae31d62a930235a9a1cd0493c9e50-800x.jpg'
+							}
+							// некоректне введення
+							if (this.numberMounth >12 || this.numberMounth < 1) {
+									this.seasonClothes = 'Весь одяг.'
+									this.seasonPicture = 'https://thepresentation.ru/img/tmb/4/340253/bbfe28314f6262f52d0989476c98368a-800x.jpg'
+							}
+						}
+					},
+					 // відслідковуємо значення в input
+					watch: {
+						numberMounth: 'season'
+						}
+			}).mount("#task02")
+	// ЗАВДАННЯ 03 -------------------------------------------------
+			createApp({
+				data() {
+					return {
+						startValue: null,
+						endValue: null,
+						result: null,
+						random: null
+					};
+				},
+						methods:{
+							randomInteger(){
+								this.result = this.startValue + Math.floor(Math.random()*(this.endValue - this.startValue + 1))
+						},
+					},
+				}).mount("#task03");
+	// ЗАВДАННЯ 04 -------------------------------------------------
+			createApp({
+		data() {
+			return {
+				grnSum: 0,
+				// курс
+				rateDollar: 38,
+				rateEuro: 40,
+				//    зарахування			
+            addMoneyValue: null,
+				//    зняття   
+				giveMoneyValue: null,
+				//   %
+				percentage: null,
+				//		стиль						
+				sumStyle: 'color: black',
+			};
+		},
+		computed: {
+			// 2
+         dollarsValue() {
+            return (this.grnSum / this.rateDollar).toFixed(2);
+            },
+         euroValue() {
+            return (this.grnSum / this.rateEuro).toFixed(2);
+            },
+			// ----------------
+			},
+
+		methods: {
+		addSum() {
+				if (this.addMoneyValue > 0) {
+					this.percentage=this.addMoneyValue * 0.03
+					let result = +(this.grnSum + this.addMoneyValue - this.percentage).toFixed(2);
+					this.grnSum = result;
+					this.giveMoneyValue = 0;
+					this.sumStyle = 'color: green';
+					}
+					else 
+					{ this.giveMoneyValue = 0;
+					this.addMoneyValue = 0 ; 
+					this.percentage = 0;
+				}
+
+				},
+      giveSum() {
+					let audit = this.grnSum - this.giveMoneyValue - this.giveMoneyValue * 0.03
+
+					if (this.giveMoneyValue > 0 && audit > 0) {
+							this.percentage=this.giveMoneyValue * 0.03;
+							let result = +(this.grnSum - this.giveMoneyValue - this.percentage).toFixed(2);
+							this.grnSum = result;
+							this.addMoneyValue = 0 ;
+							this.sumStyle = 'color: red';
+					}
+					else { this.giveMoneyValue = 0;
+					this.addMoneyValue = 0 ; 
+					this.percentage = 0;
+				}
+														
+				},
+			},
+							
+		}).mount("#task04");
+	// ЗАВДАННЯ 05 
+		const authorizedUsers = [
+										{
+											name: 'Login',
+											password: 'Password'
+										},
+										{
+											name: 'Login1',
+											password: 'Password1'
+										},
+										{
+											name: '2',
+											password: '2'
+										},
+								]
+		createApp({
+						data(){
+							return {
+								entryLogin: null,
+								entryPassword: null,
+								message: '',
+								messageStyle: '' ,
+							}
+						},
+					methods: {
+						check() {
+							const user = authorizedUsers.find((e) => e.name === this.entryLogin && e.password === this.entryPassword)
+							if (user) {
+									this.message = 'Успішний вхід'
+									this.messageStyle = 'color: green';
+
+							}
+							else {
+									this.message = 'Не вірний логін/пароль'
+									this.messageStyle = 'color: red';
+
+
+							}
+							this.entryLogin = null
+							this.entryPassword = null
+						}
+					}
+					}).mount("#task05")
+</script>
+</body>
+</html>
